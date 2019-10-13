@@ -1,0 +1,24 @@
+{
+  "name": "processo_seletivo_cubos",
+  "version": "1.0.0",
+  "main": "src/server.js",
+  "license": "MIT",
+  "dependencies": {
+    "date-fns": "^2.4.1",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.18",
+    "eslint": "^6.5.1",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.18.2",
+    "jest": "^24.9.0",
+    "nodemon": "^1.19.3",
+    "supertest": "^4.0.2"
+  },
+  "scripts": {
+    "test": "jest",
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js --ignore __test__"
+  }
+}
