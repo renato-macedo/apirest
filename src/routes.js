@@ -1,11 +1,11 @@
 const express = require('express');
 const routes = express.Router();
-const Appointment = require('./Appointment');
+const AppntController = require('./Appointment/controller');
 
 routes.get('/', (req, res) => {
   return res.json({ hello: 'fucking world' });
 });
 
-routes.post('/create', Appointment.create);
+routes.post('/create', AppntController.create);
 
 module.exports = routes;

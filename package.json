@@ -4,6 +4,7 @@
   "main": "src/server.js",
   "license": "MIT",
   "dependencies": {
+    "@hapi/joi": "^16.1.7",
     "date-fns": "^2.4.1",
     "express": "^4.17.1"
   },
