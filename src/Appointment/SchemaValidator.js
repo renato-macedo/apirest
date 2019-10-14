@@ -5,7 +5,7 @@ const schema = Joi.object({
   type: Joi.string()
     .valid('day', 'daily', 'weekly')
     .required(),
-  date: Joi.string().isoDate(),
+  day: Joi.string().isoDate(),
   intervals: Joi.array().items(
     Joi.object({
       start: Joi.string()
@@ -16,11 +16,11 @@ const schema = Joi.object({
         .required(),
     }).required()
   ),
-  days: Joi.array()
+  weekdays: Joi.array()
     .items(
       Joi.number()
         .greater(0)
-        .less(8)
+        .less(7)
     )
     .max(7),
 });

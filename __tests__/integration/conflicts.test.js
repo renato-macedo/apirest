@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { getDay, parse } = require('date-fns');
-const { dataset1, dataset2 } = require('./datasets');
+const { dataset1, dataset2, dataset3 } = require('./datasets');
 const {
   validateDaily,
   validateDay,
@@ -14,32 +14,56 @@ describe('Conflicts occurs when an  two appointments have the same day and a int
     fs.writeFileSync(bdPath, JSON.stringify([]));
   });
 
-  it('validateDay should return false if example has the same day and the start time', () => {
+  it('using dataset1, validateDay() should return false if input has the same day and the start time', () => {
     fs.writeFileSync(bdPath, JSON.stringify(dataset1));
 
-    const example = {
+    const input = {
       type: 'day',
       day: '22-12-2019',
       intervals: [{ start: '14:30', end: '15:00' }],
-      weekday: getDay(parse('22-12-2019', 'dd-MM-yyyy', new Date())),
+      weekdays: [getDay(parse('22-12-2019', 'dd-MM-yyyy', new Date()))],
     };
 
     const content = JSON.parse(fs.readFileSync(bdPath).toString());
 
-    expect(validateDay(example, content)).toBe(false);
+    expect(validateDay(input, content)).toBe(false);
   });
 
-  it('validateDaily should return return false if example has same start time', () => {
+  it('using dataset2, validateDaily() should return false if input has same start time', () => {
     fs.writeFileSync(bdPath, JSON.stringify(dataset2));
 
-    const example = {
-      type: 'day',
-      day: '22-12-2019',
-      intervals: [{ start: '14:30', end: '15:00' }],
-      weekday: getDay(parse('22-12-2019', 'dd-MM-yyyy', new Date())),
+    const input = {
+      type: 'daily',
+      intervals: [{ start: '13:30', end: '15:00' }],
     };
     const content = JSON.parse(fs.readFileSync(bdPath).toString());
 
-    expect(validateDaily(example, content)).toBe(false);
+    expect(validateDaily(input, content)).toBe(false);
+  });
+
+  it('using dataset2, validateWeekly() should return true if input has the same week day and same start time', () => {
+    fs.writeFileSync(bdPath, JSON.stringify(dataset2));
+
+    const input = {
+      type: 'weekly',
+      intervals: [{ start: '14:30', end: '15:00' }],
+      weekdays: [getDay(parse('23-12-2019', 'dd-MM-yyyy', new Date()))],
+    };
+    const content = JSON.parse(fs.readFileSync(bdPath).toString());
+
+    expect(validateWeekly(input, content)).toBe(true);
+  });
+
+  it('using dataset3, validateWeekly() should return false if input has the same week day and same start time', () => {
+    fs.writeFileSync(bdPath, JSON.stringify(dataset3));
+
+    const input = {
+      type: 'weekly',
+      intervals: [{ start: '09:40', end: '15:00' }],
+      weekdays: [getDay(parse('23-12-2019', 'dd-MM-yyyy', new Date()))],
+    };
+    const content = JSON.parse(fs.readFileSync(bdPath).toString());
+
+    expect(validateWeekly(input, content)).toBe(false);
   });
 });

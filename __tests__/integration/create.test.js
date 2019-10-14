@@ -23,7 +23,7 @@ describe('when POST /create', () => {
           { start: '14:30', end: '15:00' },
           { start: '15:10', end: '15:30' },
         ],
-        days: [1, 9],
+        weekdays: [1, 9],
       });
 
     expect(response.status).toBe(400);

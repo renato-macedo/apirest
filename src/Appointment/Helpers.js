@@ -1,17 +1,17 @@
 const { getDay, parse, isAfter, isSameDay, isFuture } = require('date-fns');
 
-function validateDay(appnt, content) {
+function validateDay(Appnt, content) {
   // search only on the days after
   const daysAfter = content.filter(
     ap =>
       ap.day &&
       (isAfter(
         parse(ap.day, 'dd-MM-yyyy', new Date()),
-        parse(appnt.day, 'dd-MM-yyyy', new Date())
+        parse(Appnt.day, 'dd-MM-yyyy', new Date())
       ) ||
         isSameDay(
           parse(ap.day, 'dd-MM-yyyy', new Date()),
-          parse(appnt.day, 'dd-MM-yyyy', new Date())
+          parse(Appnt.day, 'dd-MM-yyyy', new Date())
         ))
   );
 
@@ -19,47 +19,91 @@ function validateDay(appnt, content) {
     return true;
   }
 
-  // verify if there is a appnt at the same day
+  // verify if there is a Appnt at the same day
   const sameDay = content.filter(
     ap =>
-      ap.day === appnt.day ||
+      ap.day === Appnt.day ||
       ap.type === 'daily' ||
-      getDay(parse(appnt.day, 'dd-MM-yyyy', new Date())) === ap.weekday
+      ap.weekdays.some(
+        weekday =>
+          getDay(parse(Appnt.day, 'dd-MM-yyyy', new Date())) === weekday
+      )
   );
 
   if (sameDay.length === 0) {
     return true;
   }
 
-  // verify if there is a appnt with the same start time
-  const sameStart = sameDay.filter(ap =>
+  // verify if there is a Appnt with the same start time
+  const sameStartTime = sameDay.find(ap =>
     ap.intervals.some(interval =>
-      appnt.intervals.find(a => interval.start === a.start)
+      Appnt.intervals.some(a => interval.start === a.start)
     )
   );
-  if (sameStart.length === 0) {
+  if (sameStartTime) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
+function validateDaily(Appnt, content) {
+  const InTheFuture = content.filter(
+    ap =>
+      ap.type === 'daily' ||
+      ap.type === 'weekly' ||
+      isFuture(parse(ap.day, 'dd-MM-yyyy', new Date()))
+  );
+  if (InTheFuture.length === 0) {
+    return true;
+  }
+  // checks if there is some day with the same start time
+  const sameStartTime = InTheFuture.some(ap =>
+    ap.intervals.some(interval =>
+      Appnt.intervals.some(a => interval.start === a.start)
+    )
+  );
+
+  if (sameStartTime) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
+function validateWeekly(Appnt, content) {
+  const InTheFuture = content.filter(
+    ap =>
+      ap.type === 'daily' ||
+      ap.type === 'weekly' ||
+      isFuture(parse(ap.day, 'dd-MM-yyyy', new Date()))
+  );
+  if (InTheFuture.length === 0) {
+    return true;
+  }
+  const sameWeekDays = InTheFuture.filter(ap => {
+    if (ap.type === 'day' || ap.type === 'weekly') {
+      return ap.weekdays.some(weekday => Appnt.weekdays.includes(weekday));
+    } else {
+      return true;
+    }
+  });
+
+  if (sameWeekDays.length === 0) {
     return true;
   }
 
-  return false;
-}
-
-function validateDaily(appnt, content) {
-  const InTheFuture = content.filter(
-    ap =>
-      ap.type === 'daily' || isFuture(parse(ap.day, 'dd-MM-yyyy', new Date()))
-  );
-
-  // checks if there is some day with the same start time
-  const sameStart = content.filter(ap =>
+  const sameStartTime = sameWeekDays.some(ap =>
     ap.intervals.some(interval =>
-      appnt.intervals.find(a => interval.start === a.start)
+      Appnt.intervals.some(a => interval.start === a.start)
     )
   );
-}
 
-function validateWeekly(appnt) {
-  // get every the
+  if (sameStartTime) {
+    return false;
+  } else {
+    return true;
+  }
 }
 
 function validInterval(start, end) {
@@ -70,14 +114,14 @@ function validInterval(start, end) {
   return false;
 }
 
-function hasNoConflicts(appnt) {
-  const { type } = appnt;
+function hasNoConflicts(Appnt) {
+  const { type } = Appnt;
   if (type === 'day') {
-    return validateDate(appnt);
+    return validateDate(Appnt);
   } else if (type === 'daily') {
-    return validateDaily(appnt);
+    return validateDaily(Appnt);
   } else {
-    return validateWeekly(appnt);
+    return validateWeekly(Appnt);
   }
 }
 
