@@ -1,4 +1,4 @@
-# Seleção Cubos
+# API REST
 
 ### Para iniciar a aplicação:
 
