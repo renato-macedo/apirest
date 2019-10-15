@@ -1,11 +1,13 @@
-const Joi = require('@hapi/joi');
+const Joi = require('@hapi/joi').extend(require('@hapi/joi-date'));
 
 // Object Schema Validator
 const schema = Joi.object({
   type: Joi.string()
     .valid('day', 'daily', 'weekly')
     .required(),
-  day: Joi.string().isoDate(),
+  day: Joi.date()
+    .format('DD-MM-YYYY')
+    .raw(),
   intervals: Joi.array().items(
     Joi.object({
       start: Joi.string()

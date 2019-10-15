@@ -5,6 +5,7 @@
   "license": "MIT",
   "dependencies": {
     "@hapi/joi": "^16.1.7",
+    "@hapi/joi-date": "^2.0.1",
     "date-fns": "^2.4.1",
     "express": "^4.17.1"
   },
@@ -18,7 +19,7 @@
     "supertest": "^4.0.2"
   },
   "scripts": {
-    "test": "jest",
+    "test": "jest --verbose",
     "start": "node src/server.js",
     "dev": "nodemon src/server.js --ignore __test__"
   }

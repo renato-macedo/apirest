@@ -7,11 +7,11 @@ const {
   validateDay,
   validateWeekly,
 } = require('../../src/Appointment/Helpers');
-const bdPath = path.resolve('..', 'bd.test.json');
+const bdPath = path.resolve('bd.test.json');
 
 describe('Conflicts occurs when an  two appointments have the same day and a interval with the same same start time', () => {
   beforeEach(() => {
-    fs.writeFileSync(bdPath, JSON.stringify([]));
+    fs.writeFileSync(bdPath, JSON.stringify({ data: [] }));
   });
 
   it('using dataset1, validateDay() should return false if input has the same day and the start time', () => {

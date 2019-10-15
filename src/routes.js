@@ -7,5 +7,6 @@ routes.get('/', (req, res) => {
 });
 
 routes.post('/create', AppntController.create);
+routes.get('/list', AppntController.findAll);
 
 module.exports = routes;

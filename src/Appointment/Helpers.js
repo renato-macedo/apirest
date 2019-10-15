@@ -114,14 +114,14 @@ function validInterval(start, end) {
   return false;
 }
 
-function hasNoConflicts(Appnt) {
+function hasNoConflicts(Appnt, data) {
   const { type } = Appnt;
   if (type === 'day') {
-    return validateDate(Appnt);
+    return validateDay(Appnt, data);
   } else if (type === 'daily') {
-    return validateDaily(Appnt);
+    return validateDaily(Appnt, data);
   } else {
-    return validateWeekly(Appnt);
+    return validateWeekly(Appnt, data);
   }
 }
 
