@@ -1,27 +1,27 @@
-const schema = require('./SchemaValidator');
+const { AppointmentSchema, IntervalSchema } = require('./SchemaValidator');
 const { hasNoConflicts, validInterval } = require('./Helpers');
 const fs = require('fs');
 const path = require('path');
-const { getDay, parse } = require('date-fns');
+const { getDay, parse, isAfter, isBefore } = require('date-fns');
 const bdPath = path.resolve('bd.json');
-console.log(bdPath);
 const Appointment = {
+  /* ----------------------------------- CRIAR REGRA ----------------------------------- */
   create(data) {
     return new Promise(async (resolve, reject) => {
       try {
         // validate the structure of the req.body object
-        const value = await schema.validateAsync(data);
+        const value = await AppointmentSchema.validateAsync(data);
         console.log(value);
         const { intervals } = value;
 
         // verify if there is at least one invalid interval
         if (intervals.length > 0) {
-          const invalid = intervals.some(
+          const hasSomeInvalidInterval = intervals.some(
             interval => validInterval(interval.start, interval.end) === false
           );
-          if (invalid) {
+          if (hasSomeInvalidInterval) {
             resolve([
-              { error: 'Interval must valid start and end time' },
+              { error: 'Interval must have valid start and end time' },
               false,
             ]);
           }
@@ -57,7 +57,6 @@ const Appointment = {
           }
         });
       } catch (err) {
-        console.log(err.message);
         if (err.isJoi) {
           const errMessages = err.details.map(err => err.message);
           resolve([{ error: errMessages }, false]);
@@ -66,6 +65,7 @@ const Appointment = {
     });
   },
 
+  /* ----------------------------------- LISTAR TODAS ----------------------------------- */
   listAll() {
     return new Promise(resolve => {
       fs.readFile(bdPath, (err, data) => {
@@ -78,18 +78,19 @@ const Appointment = {
     });
   },
 
+  /* ----------------------------------- REMOVER REGRA ----------------------------------- */
   async remove(data) {
     return new Promise(async resolve => {
       try {
-        const value = await schema.validateAsync(data);
+        const value = await AppointmentSchema.validateAsync(data);
         const { intervals } = value;
         if (intervals.length > 0) {
-          const invalid = intervals.some(
+          const hasSomeInvalidInterval = intervals.some(
             interval => validInterval(interval.start, interval.end) === false
           );
-          if (invalid) {
+          if (hasSomeInvalidInterval) {
             resolve([
-              { error: 'Interval must valid start and end time' },
+              { error: 'Interval must have valid start and end time' },
               false,
             ]);
           }
@@ -127,8 +128,54 @@ const Appointment = {
         });
       } catch (error) {
         console.log(error.message);
+        if (error.isJoi) {
+          const errMessages = error.details.map(detail => detail.message);
+          resolve([{ error: errMessages }, false]);
+        }
+      }
+    });
+  },
+
+  /* ----------------------------------- LISTAR REGRAS EM UM INTERVALO ----------------------------------- */
+  async getInterval(data) {
+    return new Promise(async resolve => {
+      try {
+        const value = await IntervalSchema.validateAsync(data);
+        const { startDate, endDate } = value;
+        console.log(startDate);
+        console.log(endDate);
+        if (!validInterval(startDate, endDate, 'date')) {
+          resolve([
+            { error: 'Interval must have valid start and end date' },
+            false,
+          ]);
+        }
+        fs.readFile(bdPath, (err, data) => {
+          console.log(data.toString());
+          if (err) {
+            resolve([{ error: 'Could not save data' }, false]);
+          }
+          const dataObject = JSON.parse(data.toString());
+          const filtered = dataObject.data.filter(
+            appnt =>
+              appnt.type === 'daily' ||
+              appnt.type === 'weekly' ||
+              (isAfter(
+                parse(appnt.day, 'dd-MM-yyyy', new Date()),
+                parse(startDate, 'dd-MM-yyyy', new Date())
+              ) &&
+                isBefore(
+                  parse(appnt.day, 'dd-MM-yyyy', new Date()),
+                  parse(endDate, 'dd-MM-yyyy', new Date())
+                ))
+          );
+          console.log('filtered', filtered);
+          resolve([null, filtered]);
+        });
+      } catch (error) {
+        console.log(error.message);
         if (err.isJoi) {
-          const errMessages = err.details.map(error => error.message);
+          const errMessages = err.details.map(detail => detail.message);
           resolve([{ error: errMessages }, false]);
         }
       }

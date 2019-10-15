@@ -106,11 +106,18 @@ function validateWeekly(Appnt, content) {
   }
 }
 
-function validInterval(start, end) {
+function validInterval(start, end, format) {
+  if (format === 'date') {
+    format = 'dd-MM-yyyy';
+  } else {
+    format = 'HH:mm';
+  }
   if (
-    isAfter(parse(end, 'HH:mm', new Date()), parse(start, 'HH:mm', new Date()))
-  )
+    isAfter(parse(end, format, new Date()), parse(start, format, new Date()))
+  ) {
     return true;
+  }
+
   return false;
 }
 

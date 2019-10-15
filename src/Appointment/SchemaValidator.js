@@ -1,7 +1,7 @@
 const Joi = require('@hapi/joi').extend(require('@hapi/joi-date'));
 
 // Object Schema Validator
-const schema = Joi.object({
+const AppointmentSchema = Joi.object({
   type: Joi.string()
     .valid('day', 'daily', 'weekly')
     .required(),
@@ -27,4 +27,16 @@ const schema = Joi.object({
     .max(7),
 });
 
-module.exports = schema;
+const IntervalSchema = Joi.object({
+  startDate: Joi.date()
+    .format('DD-MM-YYYY')
+    .raw(),
+  endDate: Joi.date()
+    .format('DD-MM-YYYY')
+    .raw(),
+});
+
+module.exports = {
+  AppointmentSchema,
+  IntervalSchema,
+};
