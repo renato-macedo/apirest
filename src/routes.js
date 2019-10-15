@@ -8,5 +8,6 @@ routes.get('/', (req, res) => {
 
 routes.post('/create', AppntController.create);
 routes.get('/list', AppntController.findAll);
+routes.post('/remove', AppntController.remove);
 
 module.exports = routes;
