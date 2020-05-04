@@ -15,12 +15,12 @@ yarn test
 
 ### Endpoints
 
-| MÉTODO | ENDPOINT     | DESCRIÇÃO                     |
-| ------ | ------------ | ----------------------------- |
-| GET    | /list        | Listar todas as regras        |
-| GET    | /getinterval | Listar dentro de um intervalo |
-| POST   | /create      | Criar regra                   |
-| POST   | /remove      | Remover regra                 |
+| MÉTODO | ENDPOINT                                              | DESCRIÇÃO                     |
+| ------ | ----------------------------------------------------- | ----------------------------- |
+| GET    | /appointments                                         | Listar todas as regras        |
+| GET    | /appointments?startDate=DD-MM-YYYY&endDate=DD-MM-YYYY | Listar dentro de um intervalo |
+| POST   | /appointments                                         | Criar regra                   |
+| DELETE | /appointments                                         | Remover regra                 |
 
 ### Como os dados são armazenados
 

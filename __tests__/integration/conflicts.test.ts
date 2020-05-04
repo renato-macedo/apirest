@@ -1,12 +1,15 @@
-const fs = require('fs');
-const path = require('path');
-const { getDay, parse } = require('date-fns');
-const { dataset1, dataset2, dataset3 } = require('./datasets');
-const {
+import fs from 'fs';
+
+import path from 'path';
+
+import { getDay, parse } from 'date-fns';
+
+import { dataset1, dataset2, dataset3 } from './datasets';
+import {
   validateDaily,
   validateDay,
   validateWeekly,
-} = require('../../src/Appointment/Helpers');
+} from '../../src/Appointment/Helpers';
 const bdPath = path.resolve('bd.test.json');
 
 describe('Conflicts occurs when an  two appointments have the same day and a interval with the same same start time', () => {

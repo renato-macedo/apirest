@@ -1,0 +1,29 @@
+import { Database } from '../../database';
+import { Appointment } from '../types';
+
+export async function store(appnt: Appointment): Promise<[any, any]> {
+  const data = await Database.getStore().read();
+
+  if (appnt.hasNoConflicts(data)) {
+    // if (value.type === 'day') {
+    //   value.weekdays = [getDay(parse(value.day, 'dd-MM-yyyy', new Date()))];
+    // }
+
+    data.push(appnt);
+
+    try {
+      await Database.getStore().write(data);
+      return [false, { success: true }];
+    } catch (error) {
+      return [{ error: 'Could not save data' }, false];
+    }
+  } else {
+    return [
+      {
+        error:
+          'There are conflicts with this appointment, please change it and try again.',
+      },
+      false,
+    ];
+  }
+}

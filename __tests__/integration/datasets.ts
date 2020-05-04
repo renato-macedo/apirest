@@ -3,9 +3,8 @@ With these datasets, I tried to simulate the different
 states of the "database" since im not not allowed to use one.
 But I'll not write tests for every combination(dataset X example).
 */
-
-const { getDay, parse } = require('date-fns');
-const dataset1 = [
+import { getDay, parse } from 'date-fns';
+export const dataset1 = [
   {
     type: 'day',
     day: '21-12-2019',
@@ -44,7 +43,7 @@ const dataset1 = [
   },
 ];
 
-const dataset2 = [
+export const dataset2 = [
   {
     type: 'daily',
     intervals: [
@@ -79,7 +78,7 @@ const dataset2 = [
   },
 ];
 
-const dataset3 = [
+export const dataset3 = [
   {
     type: 'weekly',
     intervals: [
@@ -113,9 +112,3 @@ const dataset3 = [
     ],
   },
 ];
-
-module.exports = {
-  dataset1,
-  dataset2,
-  dataset3,
-};

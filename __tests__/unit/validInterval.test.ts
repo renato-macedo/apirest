@@ -1,4 +1,4 @@
-const { validInterval } = require('../../src/Appointment/Helpers');
+import { validInterval } from '../../src/Appointment/Helpers';
 
 describe('valid interval', () => {
   it('should return false if end is start is 22:30 e end is 12:10', () => {
