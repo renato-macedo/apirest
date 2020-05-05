@@ -9,38 +9,47 @@ export class WeeklyAppnt extends Appointment implements iWeeklyAppnt {
     this.weekdays = weekdays;
   }
 
-  hasNoConflicts(repo: any[]) {
+  hasNoConflicts(repo: any[]): boolean {
     const InTheFuture = repo.filter(
       (ap) =>
         ap.type === 'daily' ||
         ap.type === 'weekly' ||
         isFuture(parse(ap.day, 'dd-MM-yyyy', new Date()))
     );
+
     if (InTheFuture.length === 0) {
       return true;
     }
+
     const sameWeekDays = InTheFuture.filter((ap) => {
-      if (ap.type === 'day' || ap.type === 'weekly') {
+      if (ap.type === 'weekly') {
         return ap.weekdays.some((weekday) => this.weekdays.includes(weekday));
-      } else {
-        return true;
       }
+
+      if (ap.type === 'day') {
+        console.log(ap);
+        let day = getDay(parse(ap.day, 'dd-MM-yyyy', new Date()));
+
+        return this.weekdays.includes(day);
+      }
+
+      // daily
+      return true;
     });
 
     if (sameWeekDays.length === 0) {
       return true;
     }
 
-    const sameStartTime = sameWeekDays.some((ap) =>
-      ap.intervals.some((interval) =>
-        this.intervals.some((a) => interval.start === a.start)
-      )
-    );
-
-    if (sameStartTime) {
-      return false;
-    } else {
-      return true;
+    for (const ap of sameWeekDays) {
+      for (const interval of ap.intervals) {
+        for (const i of this.intervals) {
+          if (i.start === interval.start) {
+            return false;
+          }
+        }
+      }
     }
+    return true;
   }
 }

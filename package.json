@@ -29,7 +29,7 @@
     "prestart": "rm -Rf build",
     "start": "tsc && node build/index.js",
     "dev": "ts-node-dev src/server.ts",
-    "test": "jest",
+    "test": "jest --runInBand",
     "test:detect": "jest --detectOpenHandles --runInBand",
     "eslint": "eslint"
   },

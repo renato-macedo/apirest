@@ -17,11 +17,22 @@ export class DailyAppnt extends Appointment implements iDailyAppnt {
       return true;
     }
     // checks if there is some day with the same start time
-    const sameStartTime = InTheFuture.some((ap) =>
-      ap.intervals.some((interval) =>
-        this.intervals.some((a) => interval.start === a.start)
-      )
-    );
-    return !sameStartTime;
+    // const sameStartTime = InTheFuture.some((ap) =>
+    //   ap.intervals.some((interval) =>
+    //     this.intervals.some((a) => interval.start === a.start)
+    //   )
+    // );
+    // return !sameStartTime;
+
+    for (const ap of InTheFuture) {
+      for (const interval of ap.intervals) {
+        for (const i of this.intervals) {
+          if (i.start === interval.start) {
+            return false;
+          }
+        }
+      }
+    }
+    return true;
   }
 }

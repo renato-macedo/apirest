@@ -2,9 +2,7 @@ import { AppntTypes, AppntDTO, Appointment } from './types';
 
 import { AppointmentSchema } from './validators/SchemaValidator';
 
-import { DailyAppnt } from './types/Daily';
-import { DayAppnt } from './types/Day';
-import { WeeklyAppnt } from './types/Weekly';
+import { DailyAppnt, DayAppnt, WeeklyAppnt } from './types';
 
 export async function NewAppointment(data: AppntDTO): Promise<Appointment> {
   await AppointmentSchema.validateAsync(data);
@@ -29,7 +27,7 @@ function createDayAppnt(data: AppntDTO): DayAppnt {
   }
 
   throw new Error(
-    'Cannot create one day appointment with missing day propertie'
+    'Cannot create one day appointment with missing day property'
   );
 }
 
@@ -38,7 +36,7 @@ function createWeeklyAppnt(data: AppntDTO): WeeklyAppnt {
     const appnt = new WeeklyAppnt(data.type, data.intervals, data.weekdays);
     return appnt;
   }
-  throw new Error('Cannot create weekly appointment with missing weekdays');
+  throw new Error('Cannot create weekly appointment without weekdays');
 }
 
 function createDailyAppnt(data: AppntDTO): DailyAppnt {

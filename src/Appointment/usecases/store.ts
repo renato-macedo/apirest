@@ -13,7 +13,7 @@ export async function store(appnt: Appointment): Promise<[any, any]> {
 
     try {
       await Database.getStore().write(data);
-      return [false, { success: true }];
+      return [false, appnt];
     } catch (error) {
       return [{ error: 'Could not save data' }, false];
     }

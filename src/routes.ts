@@ -9,6 +9,9 @@ routes.get('/', (req, res) => {
 
 routes.post('/appointments', AppntController.create);
 routes.get('/appointments', AppntController.find);
-routes.delete('/appointments', AppntController.remove);
+routes.delete('/appointments/:id', AppntController.remove);
+routes.all('*', (req, res) => {
+  return res.status(404).json({ message: 'Not Found' });
+});
 
 export default routes;

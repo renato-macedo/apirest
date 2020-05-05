@@ -1,6 +1,8 @@
+import { nanoid } from 'nanoid';
 import { validInterval } from '../validators/validInterval';
 
 export abstract class Appointment {
+  readonly id: string;
   readonly intervals: Interval[];
   readonly type: string;
 
@@ -14,6 +16,7 @@ export abstract class Appointment {
         throw new Error('Interval must have valid start and end time');
       }
     }
+    this.id = nanoid();
     this.type = type;
     this.intervals = intervals;
   }

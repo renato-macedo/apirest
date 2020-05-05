@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import AppntService from './service';
+
 import {
   AppointmentSchema,
   IntervalSchema,
@@ -35,9 +36,8 @@ const Controller = {
       const { startDate, endDate } = req.query;
 
       if (startDate && endDate) {
-        const [error, appnt] = await AppntService.getInterval(
-          parseQuery(req.query)
-        );
+        const interval = await parseQuery(req.query);
+        const [error, appnt] = await AppntService.getInterval(interval);
         if (error) {
           return res.status(400).json(error);
         } else {
@@ -49,33 +49,34 @@ const Controller = {
       }
     } catch (error) {
       console.log(error.message);
+      if (error.isJoi) {
+        const errMessages = error.details.map((detail) => detail.message);
+        return res.status(400).json({ error: errMessages });
+      }
       return res.status(500).json({ error: error.message });
     }
   },
 
   async remove(req: Request, res: Response) {
     try {
-      await AppointmentSchema.validateAsync(req.body);
-      const [error, appnt] = await AppntService.remove(req.body);
-      if (error) {
-        return res.status(400).json(error);
-      } else {
-        return res.status(200).json(appnt);
+      // await AppointmentSchema.validateAsync(req.body);
+      const appnt = await AppntService.remove(req.params.id);
+      if (appnt) {
+        return res.status(200).json({
+          message: `remove appointment ${req.params.id} successfully`,
+        });
       }
+      return res
+        .status(400)
+        .json({ error: 'could not find appointment with the given id' });
     } catch (error) {
-      console.log(error.message);
-      if (error.isJoi) {
-        const errMessages = error.details.map((detail) => detail.message);
-
-        return res.status(400).json({ error: errMessages });
-      }
       console.log(error.message);
       return res.status(500).json({ error: 'server error' });
     }
   },
 };
 
-function parseQuery(query: any): { start: string; end: string } {
+async function parseQuery(query: any): Promise<{ start: string; end: string }> {
   let { startDate, endDate } = query;
   if (Array.isArray(startDate)) {
     startDate = startDate[0];
@@ -84,8 +85,9 @@ function parseQuery(query: any): { start: string; end: string } {
   if (Array.isArray(endDate)) {
     endDate = endDate[0];
   }
-
-  return { start: startDate, end: endDate };
+  const interval = { start: startDate, end: endDate };
+  await IntervalSchema.validateAsync(interval);
+  return interval;
 }
 
 export default Controller;

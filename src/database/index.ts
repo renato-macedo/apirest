@@ -7,10 +7,18 @@ const writeFile = promisify(fs.writeFile);
 
 type DB = { read: () => Promise<any>; write: (data: any) => Promise<void> };
 
-export function NewDB() {
-  let Store: DB;
+const config = {
+  development: './src/database/db.json',
+  production: './src/database/db.json',
+  testing: './src/database/db.test.json',
+};
 
-  function connect(filepath: string) {
+function NewDB() {
+  let Store: DB;
+  console.log(process.env.NODE_ENV);
+  const filepath = config[process.env.NODE_ENV];
+
+  function connect() {
     Store = {
       async read() {
         const buff = await readFile(filepath);
