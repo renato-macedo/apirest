@@ -3,14 +3,14 @@
 ### Para iniciar a aplicação:
 
 ```bash
-yarn install
-yarn dev
+npm install
+npm run dev
 ```
 
 ### Para rodar os poucos testes que eu fiz:
 
 ```bash
-yarn test
+npm test
 ```
 
 ### Endpoints
