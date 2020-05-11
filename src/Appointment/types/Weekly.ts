@@ -23,7 +23,9 @@ export class WeeklyAppnt extends Appointment implements iWeeklyAppnt {
 
     const sameWeekDays = InTheFuture.filter((ap) => {
       if (ap.type === 'weekly') {
-        return ap.weekdays.some((weekday) => this.weekdays.includes(weekday));
+        return ap.weekdays.some((weekday: number) =>
+          this.weekdays.includes(weekday)
+        );
       }
 
       if (ap.type === 'day') {

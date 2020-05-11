@@ -47,7 +47,7 @@ export class DayAppnt extends Appointment implements iDayAppnt {
 
     // verify if there is a Appnt with the same start time
     // this is O(3) 🙄
-    let sameStartTime: Appointment = null;
+    let sameStartTime;
     for (const ap of sameDayOrDayAfter) {
       for (const interval of ap.intervals) {
         for (const i of this.intervals) {

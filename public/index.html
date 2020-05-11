@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API</title>
+</head>
+<style type="text/css">
+  body {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0% 20%;
+  }
+
+  pre {
+    background-color: #f6f8fa;
+    padding: 1rem;
+  }
+
+  .tg {
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
+
+  .tg td {
+    border-color: black;
+    border-style: solid;
+    border-width: 1px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    overflow: hidden;
+    padding: 10px 5px;
+    word-break: normal;
+  }
+
+  .tg th {
+    border-color: black;
+    border-style: solid;
+    border-width: 1px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+    overflow: hidden;
+    padding: 10px 5px;
+    word-break: normal;
+  }
+
+  .tg .tg-0lax {
+    text-align: left;
+    vertical-align: top
+  }
+</style>
+
+<body>
+  <h1 id="api-rest">API </h1>
+  <h3 id="para-iniciar-a-aplica-o-">Para iniciar a aplicação:</h3>
+  <pre><code class="lang-bash"><span class="hljs-built_in">npm</span> install
+<span class="hljs-built_in">npm</span> run dev
+</code></pre>
+  <h3 id="para-rodar-os-poucos-testes-que-eu-fiz-">Para rodar os poucos testes que eu fiz:</h3>
+  <pre><code class="lang-bash">npm <span class="hljs-built_in">test</span>
+</code></pre>
+  <h3 id="endpoints">Endpoints</h3>
+  <table class="tg">
+    <thead>
+      <tr>
+        <th class="tg-0lax"> MÉTODO</th>
+        <th class="tg-0lax">ENDPOINTS</th>
+        <th class="tg-0lax">DESCRIÇÃO</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="tg-0lax">GET</td>
+        <td class="tg-0lax"><b>/appointments</b></td>
+        <td class="tg-0lax"><span style="font-weight:400;font-style:normal">Listar todas as regras</span><br></td>
+      </tr>
+      <tr>
+        <td class="tg-0lax">GET</td>
+        <td class="tg-0lax"><b>/appointments</b><span
+            style="font-weight:400;font-style:normal">?startDate=DD-MM-YYYY&amp;endDate=DD-MM-YYYY</span><br></td>
+        <td class="tg-0lax">Listar dentro de um intervalo</td>
+      </tr>
+      <tr>
+        <td class="tg-0lax">POST</td>
+        <td class="tg-0lax"><span style="font-weight:400;font-style:normal"><b>/appointments</b></span><br></td>
+        <td class="tg-0lax">Criar regra</td>
+      </tr>
+      <tr>
+        <td class="tg-0lax">DELETE</td>
+        <td class="tg-0lax"><b>/appointments/:id</b></td>
+        <td class="tg-0lax">Remover regra</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="como-os-dados-s-o-armazenados">Como os dados são armazenados</h3>
+  <pre><code class="lang-json">[
+  {
+    <span class="hljs-attr">"type"</span>: <span class="hljs-string">"day"</span>,
+    <span class="hljs-attr">"intervals"</span>: [
+      {
+        <span class="hljs-attr">"start"</span>: <span class="hljs-string">"08:30"</span>,
+        <span class="hljs-attr">"end"</span>: <span class="hljs-string">"09:00"</span>
+      },
+      {
+        <span class="hljs-attr">"start"</span>: <span class="hljs-string">"09:30"</span>,
+        <span class="hljs-attr">"end"</span>: <span class="hljs-string">"11:30"</span>
+      }
+    ],
+    <span class="hljs-attr">"day"</span>: <span class="hljs-string">"23-12-2019"</span>,
+    <span class="hljs-attr">"weekdays"</span>: [<span class="hljs-number">1</span>]
+  },
+  {
+    <span class="hljs-attr">"type"</span>: <span class="hljs-string">"daily"</span>,
+    <span class="hljs-attr">"intervals"</span>: [
+      {
+        <span class="hljs-attr">"start"</span>: <span class="hljs-string">"18:40"</span>,
+        <span class="hljs-attr">"end"</span>: <span class="hljs-string">"09:00"</span>
+      },
+      {
+        <span class="hljs-attr">"start"</span>: <span class="hljs-string">"14:20"</span>,
+        <span class="hljs-attr">"end"</span>: <span class="hljs-string">"15:30"</span>
+      }
+    ]
+  },
+  {
+    <span class="hljs-attr">"type"</span>: <span class="hljs-string">"weekly"</span>,
+    <span class="hljs-attr">"intervals"</span>: [
+      {
+        <span class="hljs-attr">"start"</span>: <span class="hljs-string">"08:40"</span>,
+        <span class="hljs-attr">"end"</span>: <span class="hljs-string">"15:00"</span>
+      },
+      {
+        <span class="hljs-attr">"start"</span>: <span class="hljs-string">"15:50"</span>,
+        <span class="hljs-attr">"end"</span>: <span class="hljs-string">"16:30"</span>
+      }
+    ],
+    <span class="hljs-attr">"weekdays"</span>: [<span class="hljs-number">4</span>, <span class="hljs-number">6</span>]
+  }
+]
+</code></pre>
+
+</body>
+
+</html>
