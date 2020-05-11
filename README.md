@@ -7,7 +7,7 @@ npm install
 npm run dev
 ```
 
-### Para rodar os poucos testes que eu fiz:
+### Para rodar os testes:
 
 ```bash
 npm test
@@ -22,51 +22,6 @@ npm test
 | POST   | /appointments                                         | Criar regra                   |
 | DELETE | /appointments/:id                                     | Remover regra                 |
 
-### Como os dados são armazenados
+### Documentação
 
-```json
-[
-  {
-    "type": "day",
-    "intervals": [
-      {
-        "start": "08:30",
-        "end": "09:00"
-      },
-      {
-        "start": "09:30",
-        "end": "11:30"
-      }
-    ],
-    "day": "23-12-2019",
-    "weekdays": [1]
-  },
-  {
-    "type": "daily",
-    "intervals": [
-      {
-        "start": "18:40",
-        "end": "09:00"
-      },
-      {
-        "start": "14:20",
-        "end": "15:30"
-      }
-    ]
-  },
-  {
-    "type": "weekly",
-    "intervals": [
-      {
-        "start": "08:40",
-        "end": "15:00"
-      },
-      {
-        "start": "15:50",
-        "end": "16:30"
-      }
-    ],
-    "weekdays": [4, 6]
-  }
-]
-```
+[Postman](https://documenter.getpostman.com/view/7870103/SVtWyTag?version=latest#13c28727-563c-4597-8d82-e01a76cada9c)
