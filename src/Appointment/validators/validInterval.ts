@@ -15,3 +15,14 @@ export function validInterval(interval: Interval, format?: string) {
     parse(start, format, new Date())
   );
 }
+
+export function hasDuplicateIntervals(intervals: Interval[]): boolean {
+  for (let i = 0; i < intervals.length; i++) {
+    for (let j = i + 1; j < intervals.length; j++) {
+      if (intervals[i].start === intervals[j].start) {
+        return true;
+      }
+    }
+  }
+  return false;
+}

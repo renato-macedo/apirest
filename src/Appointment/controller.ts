@@ -27,7 +27,7 @@ const Controller = {
           (detail: Joi.ValidationErrorItem) => detail.message
         );
 
-        return res.status(400).json({ error: errMessages });
+        return res.status(400).json({ error: errMessages[0] });
       }
       res.status(400).json({ error: error.message });
     }
@@ -54,7 +54,7 @@ const Controller = {
         const errMessages = error.details.map(
           (detail: Joi.ValidationErrorItem) => detail.message
         );
-        return res.status(400).json({ error: errMessages });
+        return res.status(400).json({ error: errMessages[0] });
       }
       return res.status(500).json({ error: error.message });
     }
