@@ -29,7 +29,8 @@ const Controller = {
 
         return res.status(400).json({ error: errMessages[0] });
       }
-      res.status(400).json({ error: error.message });
+      console.error(error);
+      res.status(500).json({ error: error.message });
     }
   },
 

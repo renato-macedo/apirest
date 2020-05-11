@@ -10,7 +10,7 @@ type DB = { read: () => Promise<any>; write: (data: any) => Promise<void> };
 const config: { readonly [key: string]: string } = {
   development: './src/database/db.json',
   production: './src/database/db.json',
-  testing: './src/database/db.test.json',
+  test: './src/database/db.test.json',
 };
 
 function NewDB() {
@@ -18,7 +18,6 @@ function NewDB() {
 
   const filepath =
     config[process.env.NODE_ENV ? process.env.NODE_ENV : 'development'];
-
   function connect() {
     Store = {
       async read() {

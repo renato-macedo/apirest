@@ -3,6 +3,15 @@
   "version": "1.0.0",
   "description": "challenge",
   "main": "index.js",
+  "scripts": {
+    "prestart": "rm -Rf build",
+    "start": "tsc && node build/index.js",
+    "dev": "ts-node-dev src/server.ts",
+    "test": "jest --runInBand",
+    "test:watch": "jest --watch",
+    "test:detect": "jest --detectOpenHandles --runInBand",
+    "eslint": "eslint"
+  },
   "dependencies": {
     "@hapi/joi": "^17.1.1",
     "date-fns": "^2.12.0",
@@ -14,6 +23,7 @@
     "@types/hapi__joi": "^16.0.12",
     "@types/jest": "^25.2.1",
     "@types/node": "^13.13.4",
+    "@types/supertest": "^2.0.9",
     "@typescript-eslint/eslint-plugin": "^2.31.0",
     "@typescript-eslint/parser": "^2.31.0",
     "eslint": "^6.8.0",
@@ -24,14 +34,6 @@
     "ts-jest": "^25.4.0",
     "ts-node-dev": "^1.0.0-pre.44",
     "typescript": "^3.8.3"
-  },
-  "scripts": {
-    "prestart": "rm -Rf build",
-    "start": "tsc && node build/index.js",
-    "dev": "ts-node-dev src/server.ts",
-    "test": "jest --runInBand",
-    "test:detect": "jest --detectOpenHandles --runInBand",
-    "eslint": "eslint"
   },
   "repository": {
     "type": "git",

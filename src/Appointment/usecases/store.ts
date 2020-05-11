@@ -5,10 +5,6 @@ export async function store(appnt: Appointment): Promise<[any, any]> {
   const data = await Database.getStore().read();
 
   if (appnt.hasNoConflicts(data)) {
-    // if (value.type === 'day') {
-    //   value.weekdays = [getDay(parse(value.day, 'dd-MM-yyyy', new Date()))];
-    // }
-
     data.push(appnt);
 
     try {
