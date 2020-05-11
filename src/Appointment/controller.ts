@@ -7,6 +7,7 @@ import {
 } from './validators/SchemaValidator';
 
 import { NewAppointment } from './Appointment';
+import Joi from '@hapi/joi';
 
 const Controller = {
   async create(req: Request, res: Response) {
@@ -21,9 +22,10 @@ const Controller = {
         return res.status(200).json(appnt);
       }
     } catch (error) {
-      console.log(error.message);
       if (error.isJoi) {
-        const errMessages = error.details.map((detail) => detail.message);
+        const errMessages = error.details.map(
+          (detail: Joi.ValidationErrorItem) => detail.message
+        );
 
         return res.status(400).json({ error: errMessages });
       }
@@ -48,9 +50,10 @@ const Controller = {
         return res.status(200).json(appnt);
       }
     } catch (error) {
-      console.log(error.message);
       if (error.isJoi) {
-        const errMessages = error.details.map((detail) => detail.message);
+        const errMessages = error.details.map(
+          (detail: Joi.ValidationErrorItem) => detail.message
+        );
         return res.status(400).json({ error: errMessages });
       }
       return res.status(500).json({ error: error.message });

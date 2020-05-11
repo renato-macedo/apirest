@@ -29,7 +29,6 @@ export class WeeklyAppnt extends Appointment implements iWeeklyAppnt {
       }
 
       if (ap.type === 'day') {
-        console.log(ap);
         let day = getDay(parse(ap.day, 'dd-MM-yyyy', new Date()));
 
         return this.weekdays.includes(day);
