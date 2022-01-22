@@ -16,7 +16,7 @@
     "@hapi/joi": "^17.1.1",
     "date-fns": "^2.12.0",
     "express": "^4.17.1",
-    "nanoid": "^3.1.4"
+    "nanoid": "^3.1.31"
   },
   "devDependencies": {
     "@types/express": "^4.17.6",
